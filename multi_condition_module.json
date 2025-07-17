@@ -6,7 +6,161 @@
   "states": {
     "Initial": {
       "type": "Initial",
-      "direct_transition": "Age_Branching"
+      "direct_transition": "Gender_Assignment"
+    },
+    "Gender_Assignment": {
+      "type": "Simple",
+      "distributed_transition": [
+        {
+          "distribution": 0.7,
+          "transition": "Assign_Region",
+          "set_gender": "M"
+        },
+        {
+          "distribution": 0.3,
+          "transition": "Assign_Region",
+          "set_gender": "F"
+        }
+      ]
+    },
+    "Assign_Region": {
+      "type": "Simple",
+      "remarks": [
+        "Randomly assign patient to one of 5 states"
+      ],
+      "distributed_transition": [
+        {
+          "distribution": 0.2,
+          "transition": "Pennsylvania_Start"
+        },
+        {
+          "distribution": 0.2,
+          "transition": "Washington_Start"
+        },
+        {
+          "distribution": 0.2,
+          "transition": "California_Start"
+        },
+        {
+          "distribution": 0.2,
+          "transition": "Massachusetts_Start"
+        },
+        {
+          "distribution": 0.2,
+          "transition": "Texas_Start"
+        }
+      ]
+    },
+    "Pennsylvania_Start": {
+      "type": "Simple",
+      "direct_transition": "Condition_1",
+      "remarks": [
+        "Entry point for patients in Pennsylvania"
+      ]
+    },
+    "Washington_Start": {
+      "type": "Simple",
+      "direct_transition": "Condition_1",
+      "remarks": [
+        "Entry point for patients in Washington"
+      ]
+    },
+    "California_Start": {
+      "type": "Simple",
+      "direct_transition": "Condition_1",
+      "remarks": [
+        "Entry point for patients in California"
+      ]
+    },
+    "Massachusetts_Start": {
+      "type": "Simple",
+      "direct_transition": "Condition_1",
+      "remarks": [
+        "Entry point for patients in Massachusetts"
+      ]
+    },
+    "Texas_Start": {
+      "type": "Simple",
+      "direct_transition": "Condition_1",
+      "remarks": [
+        "Entry point for patients in Texas"
+      ]
+    },
+    "Age_Branching": {
+      "type": "Simple",
+      "conditions": [
+        {
+          "condition": {
+            "type": "Age",
+            "operator": "<=",
+            "value": 10
+          },
+          "transition": "Condition_1"
+        },
+        {
+          "condition": {
+            "type": "And",
+            "conditions": [
+              {
+                "type": "Age",
+                "operator": ">",
+                "value": 10
+              },
+              {
+                "type": "Age",
+                "operator": "<=",
+                "value": 20
+              }
+            ]
+          },
+          "transition": "Condition_1"
+        },
+        {
+          "condition": {
+            "type": "And",
+            "conditions": [
+              {
+                "type": "Age",
+                "operator": ">",
+                "value": 20
+              },
+              {
+                "type": "Age",
+                "operator": "<=",
+                "value": 40
+              }
+            ]
+          },
+          "transition": "Condition_1"
+        },
+        {
+          "condition": {
+            "type": "And",
+            "conditions": [
+              {
+                "type": "Age",
+                "operator": ">",
+                "value": 40
+              },
+              {
+                "type": "Age",
+                "operator": "<=",
+                "value": 65
+              }
+            ]
+          },
+          "transition": "Condition_1"
+        },
+        {
+          "condition": {
+            "type": "Age",
+            "operator": ">",
+            "value": 65
+          },
+          "transition": "Condition_1"
+        }
+      ],
+      "direct_transition": "End"
     },
     "Condition_1": {
       "type": "ConditionOnset",
@@ -558,90 +712,10 @@
           "display": "Delays in developing language"
         }
       ],
-      "direct_transition": "End"
+      "direct_transition": "Age_Branching"
     },
     "End": {
       "type": "Terminal"
-    },
-    "Age_Branching": {
-      "type": "Simple",
-      "conditions": [
-        {
-          "condition": {
-            "type": "Age",
-            "operator": "<=",
-            "value": 10
-          },
-          "transition": "Condition_1",
-          "distribution": 0.35
-        },
-        {
-          "condition": {
-            "type": "And",
-            "conditions": [
-              {
-                "type": "Age",
-                "operator": ">",
-                "value": 10
-              },
-              {
-                "type": "Age",
-                "operator": "<=",
-                "value": 20
-              }
-            ]
-          },
-          "transition": "Condition_1",
-          "distribution": 0.3
-        },
-        {
-          "condition": {
-            "type": "And",
-            "conditions": [
-              {
-                "type": "Age",
-                "operator": ">",
-                "value": 20
-              },
-              {
-                "type": "Age",
-                "operator": "<=",
-                "value": 40
-              }
-            ]
-          },
-          "transition": "Condition_1",
-          "distribution": 0.15
-        },
-        {
-          "condition": {
-            "type": "And",
-            "conditions": [
-              {
-                "type": "Age",
-                "operator": ">",
-                "value": 40
-              },
-              {
-                "type": "Age",
-                "operator": "<=",
-                "value": 65
-              }
-            ]
-          },
-          "transition": "Condition_1",
-          "distribution": 0.17
-        },
-        {
-          "condition": {
-            "type": "Age",
-            "operator": ">",
-            "value": 65
-          },
-          "transition": "Condition_1",
-          "distribution": 0.03
-        }
-      ]
     }
   }
 }
