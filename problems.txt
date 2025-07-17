@@ -1,0 +1,177 @@
+--problem_ddl.sql
+CREATE TABLE problems (
+	studyid text NULL,
+	siteid text NULL,
+	subjectid text NULL,
+	brokerageid text NULL,
+	corelationid text NULL,
+	fhir_resource_id text NULL,
+	patient_id text NULL,
+	encounter_identifier text NULL,
+	clinical_status_coding_system text NULL,
+	clinical_status_coding_code text NULL,
+	clinical_status_coding_display text NULL,
+	clinical_status_text text NULL,
+	verification_status_coding_system text NULL,
+	verification_status_coding_code text NULL,
+	verification_status_coding_display text NULL,
+	verification_status_text text NULL,
+	severity_coding_system text NULL,
+	severity_coding_code text NULL,
+	severity_coding_display text NULL,
+	severity_text text NULL,
+	condition_code_coding_system text NULL,
+	condition_code_coding_code text NULL,
+	condition_code_coding_display text NULL,
+	condition_code_text text NULL,
+	onset_datetime text NULL,
+	abatement_datetime text NULL,
+	recorded_datetime text NULL,
+	recorder_reference text NULL,
+	asserter_reference text NULL,
+	source_name text NULL,
+	file_name text NULL,
+	resource_type text NULL,
+	run_date date NULL,
+	audit_load_id text NULL,
+	audit_load_datetime timestamp NULL,
+	audit_last_update_id text NULL,
+	audit_last_update_datetime timestamp NULL,
+	year_month_number int4 NULL
+);
+CREATE INDEX idx_file_name_problems ON problems USING btree (file_name);
+
+ --- problems.csv (test data)
+ code,site_id,patient_id,problem_type__id,date_of_diagnosis,date_of_resolution
+1,5,65,19,2016-03-29,
+2,1,469,27,2009-09-03,
+3,4,895,46,2015-08-09,
+4,2,773,10,2004-12-05,
+5,3,731,35,2021-06-30,
+6,2,683,20,2017-11-05,
+7,4,824,37,2003-06-07,
+8,5,936,14,2019-05-18,
+9,1,329,28,2006-07-16,
+10,3,149,40,2012-02-28,2008-01-21
+11,2,549,38,2014-05-15,
+12,5,13,9,2011-03-17,
+13,3,981,13,2005-06-21,
+
+---problem_type.csv (test data)
+code,coded_value,name,count
+1,G71.0,Muscular dystrophy,82
+2,G71.00,Muscular dystrophy unspecified,233
+3,G71.01,Duchenne or Becker,58
+4,F82,Motor delay,228
+5,F88,Other dz psychological development,198
+6,F80.9,Speech delay,117
+7,F80.89,Other dev disorders of speech and language,141
+8,F80.1,Expr language disorder,101
+9,F80.2,Mixed rec/expr language disorder,30
+10,F88,Other disorders of psychological development,15
+11,F89,Unspecified disorder of psychological development,205
+12,R62.50,Lack of expected normal physiological development,165
+13,Z13.42,Encounter for screening for global developmental delay,54
+14,Z13.40,Encounter for screening for dev delay,11
+15,Z13.49,Encounter for screening for other dev delay,247
+16,I42.0,Dilated cardiomyopathy,83
+17,I42.9,Cardiomyopathy,229
+18,I43,Cardiomyopathy in diseases classified elsewhere,175
+19,J98.4,Other disorders of lung (appropriate for Restrictive lung disease),80
+20,R94.2,Abnormal results of pulmonary function studies,216
+21,J96,Respiratory failure not elsewhere classified,156
+22,R06.89,Abnormalities of breathing,162
+23,J96.11,Chronic respiratory failure with hypoxia,128
+24,Z99.1,Depdendence on respirator,155
+25,Z99.11,Depdence on ventilator/respirator status,211
+26,Z13.820,Encounter for screening for osteoporosis,36
+27,Z87.310,Personal hx healed osteoporosis fracture,164
+28,M81.8,Other osteoporosis without current pathological fracture,169
+29,M85.9,Disorder of bone density and structure,71
+30,M85.80,Other specified disorders disorders of bone density and structure,216
+31,M62.40,Contractures,133
+32,M62.41,Contractures,192
+33,M62.47,Contractures,51
+34,M62.49,Contractures,126
+35,A67.2,Muscle pain/cramps,64
+36,H234.5,Enlarged calves,188
+37,K23.5,Toe walking,247
+38,P57.2,Delays in motor development,229
+39,Z88.321,Difficulty with physical activities,144
+40,U22.2,Frequent falls,179
+41,F42.9,Elevated ck levels,18
+42,J87.3,Elevated liver enzymes,123
+43,B72.9,Heart problems,122
+44,W27.3,Infant screen,158
+45,D66.8,Family member with muscular dystrophy,56
+46,M37.0,Delays in developing language,127
+
+---problems.yaml (used to create table(s))
+- table: problem_type
+  with:
+  - column: code
+    type: integer
+  - identity: [code: offset]
+  - column: coded_value
+    type: text
+  - column: name
+    type: text
+    required: false
+  - column: count
+    type: integer
+
+- table: problem
+  with:
+  - column: code
+    type: integer
+  - link: site
+  - link: patient
+  - link: problem_type
+  - identity: [patient, problem_type, code: offset]
+  - column: date_of_diagnosis
+    type: date
+    required: false
+  - column: date_of_resolution
+    type: date
+    required: false
+--- some statics
+# Drug classes
+#{problem_name: problem_code}
+top_dmd_problems: dict[str, str] = {
+    "Contractures (tendon)": CONTRACTURES,
+    "Developmental Delay": DEVELOPMENT_DELAY,
+    "Cardiomyopathy": CARDIOMYOPATHY,
+    "Reduced ventilation": REDUCED_VENTILATION,
+    "Osteoporosis": OSTEOPOROSIS,
+}
+
+# Problems
+CONTRACTURES = (
+    "M62.40",
+    "M62.41",
+    "M62.42",
+    "M62.43",
+    "M62.44",
+    "M62.45",
+    "M62.46",
+    "M62.47",
+    "M62.48",
+    "M62.49",
+)
+DEVELOPMENT_DELAY = (
+    "F82",
+    "F88",
+    "F80.9",
+    "F80.89",
+    "F80.1",
+    "F80.2",
+    "F88",
+    "F89",
+    "R62.50",
+    "Z13.42",
+    "Z13.40",
+    "Z13.49",
+)
+CARDIOMYOPATHY = ("I42.0", "I42.9", "I43")
+REDUCED_VENTILATION = ("J98.4", "R94.2", "J96", "R06.89", "J96.11", "Z99.1", "Z99.11")
+OSTEOPOROSIS = ("Z13.820", "Z87.310", "M81.8", "M85.9", "M85.80")
