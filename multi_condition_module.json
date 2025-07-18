@@ -24,78 +24,80 @@
       ]
     },
     "Assign_Region": {
-      "type": "Simple",
+      "type": "Site",
       "remarks": [
         "Randomly assign patient to one of 5 states"
       ],
       "distributed_transition": [
         {
           "distribution": 0.2,
-          "transition": "Pennsylvania_Start"
+          "transition": "Pennsylvania"
         },
         {
           "distribution": 0.2,
-          "transition": "Washington_Start"
+          "transition": "Washington"
         },
         {
           "distribution": 0.2,
-          "transition": "California_Start"
+          "transition": "California"
         },
         {
           "distribution": 0.2,
-          "transition": "Massachusetts_Start"
+          "transition": "Massachusetts"
         },
         {
           "distribution": 0.2,
-          "transition": "Texas_Start"
+          "transition": "Texas"
         }
       ]
     },
-    "Pennsylvania_Start": {
-      "type": "Simple",
-      "direct_transition": "Condition_1",
+    "Pennsylvania": {
+      "type": "Site",
+      "direct_transition": "Age_Branching",
       "remarks": [
         "Entry point for patients in Pennsylvania"
       ]
     },
-    "Washington_Start": {
-      "type": "Simple",
-      "direct_transition": "Condition_1",
+    "Washington": {
+      "type": "Site",
+      "direct_transition": "Age_Branching",
       "remarks": [
         "Entry point for patients in Washington"
       ]
     },
-    "California_Start": {
-      "type": "Simple",
-      "direct_transition": "Condition_1",
+    "California": {
+      "type": "Site",
+      "direct_transition": "Age_Branching",
       "remarks": [
         "Entry point for patients in California"
       ]
     },
-    "Massachusetts_Start": {
-      "type": "Simple",
-      "direct_transition": "Condition_1",
+    "Massachusetts": {
+      "type": "Site",
+      "direct_transition": "Age_Branching",
       "remarks": [
         "Entry point for patients in Massachusetts"
       ]
     },
-    "Texas_Start": {
-      "type": "Simple",
-      "direct_transition": "Condition_1",
+    "Texas": {
+      "type": "Site",
+      "direct_transition": "Age_Branching",
       "remarks": [
         "Entry point for patients in Texas"
       ]
     },
     "Age_Branching": {
-      "type": "Simple",
-      "conditions": [
+      "type": "DistributedTransition",
+      "distributed_transition": [
         {
           "condition": {
             "type": "Age",
             "operator": "<=",
-            "value": 10
+            "value": 10,
+            "unit": "years"
           },
-          "transition": "Condition_1"
+          "transition": "Age_0_10",
+          "distribution": 0.35
         },
         {
           "condition": {
@@ -113,7 +115,8 @@
               }
             ]
           },
-          "transition": "Condition_1"
+          "transition": "Age_11_20",
+          "distribution": 0.3
         },
         {
           "condition": {
@@ -131,7 +134,8 @@
               }
             ]
           },
-          "transition": "Condition_1"
+          "transition": "Age_21_40",
+          "distribution": 0.15
         },
         {
           "condition": {
@@ -149,7 +153,8 @@
               }
             ]
           },
-          "transition": "Condition_1"
+          "transition": "Age_41_66",
+          "distribution": 0.17
         },
         {
           "condition": {
@@ -157,10 +162,40 @@
             "operator": ">",
             "value": 65
           },
-          "transition": "Condition_1"
+          "transition": "Age_66_plus",
+          "distribution": 0.03
         }
-      ],
-      "direct_transition": "End"
+      ]
+    },
+    "Age_0_10": {
+      "type": "SetAttribute",
+      "attribute": "age_group",
+      "value": "child",
+      "direct_transition": "Condition_1"
+    },
+    "Age_11_20": {
+      "type": "SetAttribute",
+      "attribute": "age_group",
+      "value": "adolescent",
+      "direct_transition": "Condition_1"
+    },
+    "Age_21_40": {
+      "type": "SetAttribute",
+      "attribute": "age_group",
+      "value": "young_adult",
+      "direct_transition": "Condition_1"
+    },
+    "Age_41_66": {
+      "type": "SetAttribute",
+      "attribute": "age_group",
+      "value": "middle_aged",
+      "direct_transition": "Condition_1"
+    },
+    "Age_66_plus": {
+      "type": "SetAttribute",
+      "attribute": "age_group",
+      "value": "senior",
+      "direct_transition": "Condition_1"
     },
     "Condition_1": {
       "type": "ConditionOnset",
@@ -712,7 +747,7 @@
           "display": "Delays in developing language"
         }
       ],
-      "direct_transition": "Age_Branching"
+      "direct_transition": "End"
     },
     "End": {
       "type": "Terminal"
