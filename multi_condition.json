@@ -1,0 +1,756 @@
+{
+  "name": "multi_condition_module",
+  "remarks": [
+    "Simulates multiple problem types"
+  ],
+  "states": {
+    "Initial": {
+      "type": "Initial",
+      "direct_transition": "Gender_Assignment"
+    },
+    "Gender_Assignment": {
+      "type": "Simple",
+      "distributed_transition": [
+        {
+          "distribution": 0.7,
+          "transition": "Assign_Region",
+          "set_gender": "M"
+        },
+        {
+          "distribution": 0.3,
+          "transition": "Assign_Region",
+          "set_gender": "F"
+        }
+      ]
+    },
+    "Assign_Region": {
+      "type": "Site",
+      "remarks": [
+        "Randomly assign patient to one of 5 states"
+      ],
+      "distributed_transition": [
+        {
+          "distribution": 0.2,
+          "transition": "Pennsylvania"
+        },
+        {
+          "distribution": 0.2,
+          "transition": "Washington"
+        },
+        {
+          "distribution": 0.2,
+          "transition": "California"
+        },
+        {
+          "distribution": 0.2,
+          "transition": "Massachusetts"
+        },
+        {
+          "distribution": 0.2,
+          "transition": "Texas"
+        }
+      ]
+    },
+    "Pennsylvania": {
+      "type": "Site",
+      "direct_transition": "Age_Branching",
+      "remarks": [
+        "Entry point for patients in Pennsylvania"
+      ]
+    },
+    "Washington": {
+      "type": "Site",
+      "direct_transition": "Age_Branching",
+      "remarks": [
+        "Entry point for patients in Washington"
+      ]
+    },
+    "California": {
+      "type": "Site",
+      "direct_transition": "Age_Branching",
+      "remarks": [
+        "Entry point for patients in California"
+      ]
+    },
+    "Massachusetts": {
+      "type": "Site",
+      "direct_transition": "Age_Branching",
+      "remarks": [
+        "Entry point for patients in Massachusetts"
+      ]
+    },
+    "Texas": {
+      "type": "Site",
+      "direct_transition": "Age_Branching",
+      "remarks": [
+        "Entry point for patients in Texas"
+      ]
+    },
+    "Age_Branching": {
+      "type": "DistributedTransition",
+      "distributed_transition": [
+        {
+          "condition": {
+            "type": "Age",
+            "operator": "<=",
+            "value": 10,
+            "unit": "years"
+          },
+          "transition": "Age_0_10",
+          "distribution": 0.35
+        },
+        {
+          "condition": {
+            "type": "And",
+            "conditions": [
+              {
+                "type": "Age",
+                "operator": ">",
+                "value": 10
+              },
+              {
+                "type": "Age",
+                "operator": "<=",
+                "value": 20
+              }
+            ]
+          },
+          "transition": "Age_11_20",
+          "distribution": 0.3
+        },
+        {
+          "condition": {
+            "type": "And",
+            "conditions": [
+              {
+                "type": "Age",
+                "operator": ">",
+                "value": 20
+              },
+              {
+                "type": "Age",
+                "operator": "<=",
+                "value": 40
+              }
+            ]
+          },
+          "transition": "Age_21_40",
+          "distribution": 0.15
+        },
+        {
+          "condition": {
+            "type": "And",
+            "conditions": [
+              {
+                "type": "Age",
+                "operator": ">",
+                "value": 40
+              },
+              {
+                "type": "Age",
+                "operator": "<=",
+                "value": 65
+              }
+            ]
+          },
+          "transition": "Age_41_66",
+          "distribution": 0.17
+        },
+        {
+          "condition": {
+            "type": "Age",
+            "operator": ">",
+            "value": 65
+          },
+          "transition": "Age_66_plus",
+          "distribution": 0.03
+        }
+      ]
+    },
+    "Age_0_10": {
+      "type": "SetAttribute",
+      "attribute": "age_group",
+      "value": "child",
+      "direct_transition": "Condition_1"
+    },
+    "Age_11_20": {
+      "type": "SetAttribute",
+      "attribute": "age_group",
+      "value": "adolescent",
+      "direct_transition": "Condition_1"
+    },
+    "Age_21_40": {
+      "type": "SetAttribute",
+      "attribute": "age_group",
+      "value": "young_adult",
+      "direct_transition": "Condition_1"
+    },
+    "Age_41_66": {
+      "type": "SetAttribute",
+      "attribute": "age_group",
+      "value": "middle_aged",
+      "direct_transition": "Condition_1"
+    },
+    "Age_66_plus": {
+      "type": "SetAttribute",
+      "attribute": "age_group",
+      "value": "senior",
+      "direct_transition": "Condition_1"
+    },
+    "Condition_1": {
+      "type": "ConditionOnset",
+      "target_condition": "Muscular dystrophy",
+      "codes": [
+        {
+          "system": "ICD-10",
+          "code": "G71.0",
+          "display": "Muscular dystrophy"
+        }
+      ],
+      "direct_transition": "Condition_2"
+    },
+    "Condition_2": {
+      "type": "ConditionOnset",
+      "target_condition": "Muscular dystrophy unspecified",
+      "codes": [
+        {
+          "system": "ICD-10",
+          "code": "G71.00",
+          "display": "Muscular dystrophy unspecified"
+        }
+      ],
+      "direct_transition": "Condition_3"
+    },
+    "Condition_3": {
+      "type": "ConditionOnset",
+      "target_condition": "Duchenne or Becker",
+      "codes": [
+        {
+          "system": "ICD-10",
+          "code": "G71.01",
+          "display": "Duchenne or Becker"
+        }
+      ],
+      "direct_transition": "Condition_4"
+    },
+    "Condition_4": {
+      "type": "ConditionOnset",
+      "target_condition": "Motor delay",
+      "codes": [
+        {
+          "system": "ICD-10",
+          "code": "F82",
+          "display": "Motor delay"
+        }
+      ],
+      "direct_transition": "Condition_5"
+    },
+    "Condition_5": {
+      "type": "ConditionOnset",
+      "target_condition": "Other dz psychological development",
+      "codes": [
+        {
+          "system": "ICD-10",
+          "code": "F88",
+          "display": "Other dz psychological development"
+        }
+      ],
+      "direct_transition": "Condition_6"
+    },
+    "Condition_6": {
+      "type": "ConditionOnset",
+      "target_condition": "Speech delay",
+      "codes": [
+        {
+          "system": "ICD-10",
+          "code": "F80.9",
+          "display": "Speech delay"
+        }
+      ],
+      "direct_transition": "Condition_7"
+    },
+    "Condition_7": {
+      "type": "ConditionOnset",
+      "target_condition": "Other dev disorders of speech and language",
+      "codes": [
+        {
+          "system": "ICD-10",
+          "code": "F80.89",
+          "display": "Other dev disorders of speech and language"
+        }
+      ],
+      "direct_transition": "Condition_8"
+    },
+    "Condition_8": {
+      "type": "ConditionOnset",
+      "target_condition": "Expr language disorder",
+      "codes": [
+        {
+          "system": "ICD-10",
+          "code": "F80.1",
+          "display": "Expr language disorder"
+        }
+      ],
+      "direct_transition": "Condition_9"
+    },
+    "Condition_9": {
+      "type": "ConditionOnset",
+      "target_condition": "Mixed rec/expr language disorder",
+      "codes": [
+        {
+          "system": "ICD-10",
+          "code": "F80.2",
+          "display": "Mixed rec/expr language disorder"
+        }
+      ],
+      "direct_transition": "Condition_10"
+    },
+    "Condition_10": {
+      "type": "ConditionOnset",
+      "target_condition": "Other disorders of psychological development",
+      "codes": [
+        {
+          "system": "ICD-10",
+          "code": "F88",
+          "display": "Other disorders of psychological development"
+        }
+      ],
+      "direct_transition": "Condition_11"
+    },
+    "Condition_11": {
+      "type": "ConditionOnset",
+      "target_condition": "Unspecified disorder of psychological development",
+      "codes": [
+        {
+          "system": "ICD-10",
+          "code": "F89",
+          "display": "Unspecified disorder of psychological development"
+        }
+      ],
+      "direct_transition": "Condition_12"
+    },
+    "Condition_12": {
+      "type": "ConditionOnset",
+      "target_condition": "Lack of expected normal physiological development",
+      "codes": [
+        {
+          "system": "ICD-10",
+          "code": "R62.50",
+          "display": "Lack of expected normal physiological development"
+        }
+      ],
+      "direct_transition": "Condition_13"
+    },
+    "Condition_13": {
+      "type": "ConditionOnset",
+      "target_condition": "Encounter for screening for global developmental delay",
+      "codes": [
+        {
+          "system": "ICD-10",
+          "code": "Z13.42",
+          "display": "Encounter for screening for global developmental delay"
+        }
+      ],
+      "direct_transition": "Condition_14"
+    },
+    "Condition_14": {
+      "type": "ConditionOnset",
+      "target_condition": "Encounter for screening for dev delay",
+      "codes": [
+        {
+          "system": "ICD-10",
+          "code": "Z13.40",
+          "display": "Encounter for screening for dev delay"
+        }
+      ],
+      "direct_transition": "Condition_15"
+    },
+    "Condition_15": {
+      "type": "ConditionOnset",
+      "target_condition": "Encounter for screening for other dev delay",
+      "codes": [
+        {
+          "system": "ICD-10",
+          "code": "Z13.49",
+          "display": "Encounter for screening for other dev delay"
+        }
+      ],
+      "direct_transition": "Condition_16"
+    },
+    "Condition_16": {
+      "type": "ConditionOnset",
+      "target_condition": "Dilated cardiomyopathy",
+      "codes": [
+        {
+          "system": "ICD-10",
+          "code": "I42.0",
+          "display": "Dilated cardiomyopathy"
+        }
+      ],
+      "direct_transition": "Condition_17"
+    },
+    "Condition_17": {
+      "type": "ConditionOnset",
+      "target_condition": "Cardiomyopathy",
+      "codes": [
+        {
+          "system": "ICD-10",
+          "code": "I42.9",
+          "display": "Cardiomyopathy"
+        }
+      ],
+      "direct_transition": "Condition_18"
+    },
+    "Condition_18": {
+      "type": "ConditionOnset",
+      "target_condition": "Cardiomyopathy in diseases classified elsewhere",
+      "codes": [
+        {
+          "system": "ICD-10",
+          "code": "I43",
+          "display": "Cardiomyopathy in diseases classified elsewhere"
+        }
+      ],
+      "direct_transition": "Condition_19"
+    },
+    "Condition_19": {
+      "type": "ConditionOnset",
+      "target_condition": "Other disorders of lung",
+      "codes": [
+        {
+          "system": "ICD-10",
+          "code": "J98.4",
+          "display": "Other disorders of lung"
+        }
+      ],
+      "direct_transition": "Condition_20"
+    },
+    "Condition_20": {
+      "type": "ConditionOnset",
+      "target_condition": "Abnormal results of pulmonary function studies",
+      "codes": [
+        {
+          "system": "ICD-10",
+          "code": "R94.2",
+          "display": "Abnormal results of pulmonary function studies"
+        }
+      ],
+      "direct_transition": "Condition_21"
+    },
+    "Condition_21": {
+      "type": "ConditionOnset",
+      "target_condition": "Respiratory failure not elsewhere classified",
+      "codes": [
+        {
+          "system": "ICD-10",
+          "code": "J96",
+          "display": "Respiratory failure not elsewhere classified"
+        }
+      ],
+      "direct_transition": "Condition_22"
+    },
+    "Condition_22": {
+      "type": "ConditionOnset",
+      "target_condition": "Abnormalities of breathing",
+      "codes": [
+        {
+          "system": "ICD-10",
+          "code": "R06.89",
+          "display": "Abnormalities of breathing"
+        }
+      ],
+      "direct_transition": "Condition_23"
+    },
+    "Condition_23": {
+      "type": "ConditionOnset",
+      "target_condition": "Chronic respiratory failure with hypoxia",
+      "codes": [
+        {
+          "system": "ICD-10",
+          "code": "J96.11",
+          "display": "Chronic respiratory failure with hypoxia"
+        }
+      ],
+      "direct_transition": "Condition_24"
+    },
+    "Condition_24": {
+      "type": "ConditionOnset",
+      "target_condition": "Depdendence on respirator",
+      "codes": [
+        {
+          "system": "ICD-10",
+          "code": "Z99.1",
+          "display": "Depdendence on respirator"
+        }
+      ],
+      "direct_transition": "Condition_25"
+    },
+    "Condition_25": {
+      "type": "ConditionOnset",
+      "target_condition": "Depdence on ventilator/respirator status",
+      "codes": [
+        {
+          "system": "ICD-10",
+          "code": "Z99.11",
+          "display": "Depdence on ventilator/respirator status"
+        }
+      ],
+      "direct_transition": "Condition_26"
+    },
+    "Condition_26": {
+      "type": "ConditionOnset",
+      "target_condition": "Encounter for screening for osteoporosis",
+      "codes": [
+        {
+          "system": "ICD-10",
+          "code": "Z13.820",
+          "display": "Encounter for screening for osteoporosis"
+        }
+      ],
+      "direct_transition": "Condition_27"
+    },
+    "Condition_27": {
+      "type": "ConditionOnset",
+      "target_condition": "Personal hx healed osteoporosis fracture",
+      "codes": [
+        {
+          "system": "ICD-10",
+          "code": "Z87.310",
+          "display": "Personal hx healed osteoporosis fracture"
+        }
+      ],
+      "direct_transition": "Condition_28"
+    },
+    "Condition_28": {
+      "type": "ConditionOnset",
+      "target_condition": "Other osteoporosis without current pathological fracture",
+      "codes": [
+        {
+          "system": "ICD-10",
+          "code": "M81.8",
+          "display": "Other osteoporosis without current pathological fracture"
+        }
+      ],
+      "direct_transition": "Condition_29"
+    },
+    "Condition_29": {
+      "type": "ConditionOnset",
+      "target_condition": "Disorder of bone density and structure",
+      "codes": [
+        {
+          "system": "ICD-10",
+          "code": "M85.9",
+          "display": "Disorder of bone density and structure"
+        }
+      ],
+      "direct_transition": "Condition_30"
+    },
+    "Condition_30": {
+      "type": "ConditionOnset",
+      "target_condition": "Other specified disorders disorders of bone density and structure",
+      "codes": [
+        {
+          "system": "ICD-10",
+          "code": "M85.80",
+          "display": "Other specified disorders disorders of bone density and structure"
+        }
+      ],
+      "direct_transition": "Condition_31"
+    },
+    "Condition_31": {
+      "type": "ConditionOnset",
+      "target_condition": "Contractures",
+      "codes": [
+        {
+          "system": "ICD-10",
+          "code": "M62.40",
+          "display": "Contractures"
+        }
+      ],
+      "direct_transition": "Condition_32"
+    },
+    "Condition_32": {
+      "type": "ConditionOnset",
+      "target_condition": "Contractures",
+      "codes": [
+        {
+          "system": "ICD-10",
+          "code": "M62.41",
+          "display": "Contractures"
+        }
+      ],
+      "direct_transition": "Condition_33"
+    },
+    "Condition_33": {
+      "type": "ConditionOnset",
+      "target_condition": "Contractures",
+      "codes": [
+        {
+          "system": "ICD-10",
+          "code": "M62.47",
+          "display": "Contractures"
+        }
+      ],
+      "direct_transition": "Condition_34"
+    },
+    "Condition_34": {
+      "type": "ConditionOnset",
+      "target_condition": "Contractures",
+      "codes": [
+        {
+          "system": "ICD-10",
+          "code": "M62.49",
+          "display": "Contractures"
+        }
+      ],
+      "direct_transition": "Condition_35"
+    },
+    "Condition_35": {
+      "type": "ConditionOnset",
+      "target_condition": "Muscle pain/cramps",
+      "codes": [
+        {
+          "system": "ICD-10",
+          "code": "A67.2",
+          "display": "Muscle pain/cramps"
+        }
+      ],
+      "direct_transition": "Condition_36"
+    },
+    "Condition_36": {
+      "type": "ConditionOnset",
+      "target_condition": "Enlarged calves",
+      "codes": [
+        {
+          "system": "ICD-10",
+          "code": "H234.5",
+          "display": "Enlarged calves"
+        }
+      ],
+      "direct_transition": "Condition_37"
+    },
+    "Condition_37": {
+      "type": "ConditionOnset",
+      "target_condition": "Toe walking",
+      "codes": [
+        {
+          "system": "ICD-10",
+          "code": "K23.5",
+          "display": "Toe walking"
+        }
+      ],
+      "direct_transition": "Condition_38"
+    },
+    "Condition_38": {
+      "type": "ConditionOnset",
+      "target_condition": "Delays in motor development",
+      "codes": [
+        {
+          "system": "ICD-10",
+          "code": "P57.2",
+          "display": "Delays in motor development"
+        }
+      ],
+      "direct_transition": "Condition_39"
+    },
+    "Condition_39": {
+      "type": "ConditionOnset",
+      "target_condition": "Difficulty with physical activities",
+      "codes": [
+        {
+          "system": "ICD-10",
+          "code": "Z88.321",
+          "display": "Difficulty with physical activities"
+        }
+      ],
+      "direct_transition": "Condition_40"
+    },
+    "Condition_40": {
+      "type": "ConditionOnset",
+      "target_condition": "Frequent falls",
+      "codes": [
+        {
+          "system": "ICD-10",
+          "code": "U22.2",
+          "display": "Frequent falls"
+        }
+      ],
+      "direct_transition": "Condition_41"
+    },
+    "Condition_41": {
+      "type": "ConditionOnset",
+      "target_condition": "Elevated ck levels",
+      "codes": [
+        {
+          "system": "ICD-10",
+          "code": "F42.9",
+          "display": "Elevated ck levels"
+        }
+      ],
+      "direct_transition": "Condition_42"
+    },
+    "Condition_42": {
+      "type": "ConditionOnset",
+      "target_condition": "Elevated liver enzymes",
+      "codes": [
+        {
+          "system": "ICD-10",
+          "code": "J87.3",
+          "display": "Elevated liver enzymes"
+        }
+      ],
+      "direct_transition": "Condition_43"
+    },
+    "Condition_43": {
+      "type": "ConditionOnset",
+      "target_condition": "Heart problems",
+      "codes": [
+        {
+          "system": "ICD-10",
+          "code": "B72.9",
+          "display": "Heart problems"
+        }
+      ],
+      "direct_transition": "Condition_44"
+    },
+    "Condition_44": {
+      "type": "ConditionOnset",
+      "target_condition": "Infant screen",
+      "codes": [
+        {
+          "system": "ICD-10",
+          "code": "W27.3",
+          "display": "Infant screen"
+        }
+      ],
+      "direct_transition": "Condition_45"
+    },
+    "Condition_45": {
+      "type": "ConditionOnset",
+      "target_condition": "Family member with muscular dystrophy",
+      "codes": [
+        {
+          "system": "ICD-10",
+          "code": "D66.8",
+          "display": "Family member with muscular dystrophy"
+        }
+      ],
+      "direct_transition": "Condition_46"
+    },
+    "Condition_46": {
+      "type": "ConditionOnset",
+      "target_condition": "Delays in developing language",
+      "codes": [
+        {
+          "system": "ICD-10",
+          "code": "M37.0",
+          "display": "Delays in developing language"
+        }
+      ],
+      "direct_transition": "End"
+    },
+    "End": {
+      "type": "Terminal"
+    }
+  }
+}

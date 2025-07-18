@@ -1,5 +1,5 @@
 {
-  "name": "multi_condition_module",
+  "name": "multi_condition_module_copy",
   "remarks": [
     "Simulates multiple problem types"
   ],
@@ -171,35 +171,425 @@
       "type": "SetAttribute",
       "attribute": "age_group",
       "value": "child",
-      "direct_transition": "Condition_1"
+      "direct_transition": "Assign_Grouped_Conditions"
     },
     "Age_11_20": {
       "type": "SetAttribute",
       "attribute": "age_group",
       "value": "adolescent",
-      "direct_transition": "Condition_1"
+      "direct_transition": "Assign_Grouped_Conditions"
     },
     "Age_21_40": {
       "type": "SetAttribute",
       "attribute": "age_group",
       "value": "young_adult",
-      "direct_transition": "Condition_1"
+      "direct_transition": "Assign_Grouped_Conditions"
     },
     "Age_41_66": {
       "type": "SetAttribute",
       "attribute": "age_group",
       "value": "middle_aged",
-      "direct_transition": "Condition_1"
+      "direct_transition": "Assign_Grouped_Conditions"
     },
     "Age_66_plus": {
       "type": "SetAttribute",
       "attribute": "age_group",
       "value": "senior",
-      "direct_transition": "Condition_1"
+      "direct_transition": "Assign_Grouped_Conditions"
     },
-    "Condition_1": {
+    "Assign_Grouped_Conditions": {
+      "type": "SetAttribute",
+      "assignments": [
+        {
+          "attribute": "has_Contractures_tendon",
+          "value": {
+            "condition_type": "random",
+            "range": [
+              0,
+              1
+            ]
+          }
+        },
+        {
+          "attribute": "has_Developmental_Delay",
+          "value": {
+            "condition_type": "random",
+            "range": [
+              0,
+              1
+            ]
+          }
+        },
+        {
+          "attribute": "has_Cardiomyopathy",
+          "value": {
+            "condition_type": "random",
+            "range": [
+              0,
+              1
+            ]
+          }
+        },
+        {
+          "attribute": "has_Reduced_ventilation",
+          "value": {
+            "condition_type": "random",
+            "range": [
+              0,
+              1
+            ]
+          }
+        },
+        {
+          "attribute": "has_Osteoporosis",
+          "value": {
+            "condition_type": "random",
+            "range": [
+              0,
+              1
+            ]
+          }
+        }
+      ],
+      "direct_transition": "Condition_Logic"
+    },
+    "Condition_Logic": {
+      "type": "Guard",
+      "conditions": [
+        {
+          "condition_type": "attribute",
+          "attribute": "has_Contractures_tendon",
+          "operator": ">=",
+          "value": 0.5
+        },
+        {
+          "condition_type": "attribute",
+          "attribute": "has_Developmental_Delay",
+          "operator": ">=",
+          "value": 0.5
+        },
+        {
+          "condition_type": "attribute",
+          "attribute": "has_Cardiomyopathy",
+          "operator": ">=",
+          "value": 0.5
+        },
+        {
+          "condition_type": "attribute",
+          "attribute": "has_Reduced_ventilation",
+          "operator": ">=",
+          "value": 0.5
+        },
+        {
+          "condition_type": "attribute",
+          "attribute": "has_Osteoporosis",
+          "operator": ">=",
+          "value": 0.5
+        }
+      ],
+      "allow": [
+        "Check_Contractures_tendon",
+        "Check_Developmental_Delay",
+        "Check_Cardiomyopathy",
+        "Check_Reduced_ventilation",
+        "Check_Osteoporosis"
+      ],
+      "default_transition": "EnAssign_Ungrouped_Conditionsd"
+    },
+    "Check_Contractures_tendon": {
       "type": "ConditionOnset",
-      "target_condition": "Muscular dystrophy",
+      "codes": [
+        {
+          "system": "ICD-10",
+          "code": "M62.40",
+          "display": "Contractures (tendon) - M62.40"
+        },
+        {
+          "system": "ICD-10",
+          "code": "M62.41",
+          "display": "Contractures (tendon) - M62.41"
+        },
+        {
+          "system": "ICD-10",
+          "code": "M62.42",
+          "display": "Contractures (tendon) - M62.42"
+        },
+        {
+          "system": "ICD-10",
+          "code": "M62.43",
+          "display": "Contractures (tendon) - M62.43"
+        },
+        {
+          "system": "ICD-10",
+          "code": "M62.44",
+          "display": "Contractures (tendon) - M62.44"
+        },
+        {
+          "system": "ICD-10",
+          "code": "M62.45",
+          "display": "Contractures (tendon) - M62.45"
+        },
+        {
+          "system": "ICD-10",
+          "code": "M62.46",
+          "display": "Contractures (tendon) - M62.46"
+        },
+        {
+          "system": "ICD-10",
+          "code": "M62.47",
+          "display": "Contractures (tendon) - M62.47"
+        },
+        {
+          "system": "ICD-10",
+          "code": "M62.48",
+          "display": "Contractures (tendon) - M62.48"
+        },
+        {
+          "system": "ICD-10",
+          "code": "M62.49",
+          "display": "Contractures (tendon) - M62.49"
+        }
+      ],
+      "direct_transition": "Condition_Logic"
+    },
+    "Check_Developmental_Delay": {
+      "type": "ConditionOnset",
+      "codes": [
+        {
+          "system": "ICD-10",
+          "code": "F82",
+          "display": "Developmental Delay - F82"
+        },
+        {
+          "system": "ICD-10",
+          "code": "F88",
+          "display": "Developmental Delay - F88"
+        },
+        {
+          "system": "ICD-10",
+          "code": "F80.9",
+          "display": "Developmental Delay - F80.9"
+        },
+        {
+          "system": "ICD-10",
+          "code": "F80.89",
+          "display": "Developmental Delay - F80.89"
+        },
+        {
+          "system": "ICD-10",
+          "code": "F80.1",
+          "display": "Developmental Delay - F80.1"
+        },
+        {
+          "system": "ICD-10",
+          "code": "F80.2",
+          "display": "Developmental Delay - F80.2"
+        },
+        {
+          "system": "ICD-10",
+          "code": "F89",
+          "display": "Developmental Delay - F89"
+        },
+        {
+          "system": "ICD-10",
+          "code": "R62.50",
+          "display": "Developmental Delay - R62.50"
+        },
+        {
+          "system": "ICD-10",
+          "code": "Z13.42",
+          "display": "Developmental Delay - Z13.42"
+        },
+        {
+          "system": "ICD-10",
+          "code": "Z13.40",
+          "display": "Developmental Delay - Z13.40"
+        },
+        {
+          "system": "ICD-10",
+          "code": "Z13.49",
+          "display": "Developmental Delay - Z13.49"
+        }
+      ],
+      "direct_transition": "Condition_Logic"
+    },
+    "Check_Cardiomyopathy": {
+      "type": "ConditionOnset",
+      "codes": [
+        {
+          "system": "ICD-10",
+          "code": "I42.0",
+          "display": "Cardiomyopathy - I42.0"
+        },
+        {
+          "system": "ICD-10",
+          "code": "I42.9",
+          "display": "Cardiomyopathy - I42.9"
+        },
+        {
+          "system": "ICD-10",
+          "code": "I43",
+          "display": "Cardiomyopathy - I43"
+        }
+      ],
+      "direct_transition": "Condition_Logic"
+    },
+    "Check_Reduced_ventilation": {
+      "type": "ConditionOnset",
+      "codes": [
+        {
+          "system": "ICD-10",
+          "code": "J98.4",
+          "display": "Reduced ventilation - J98.4"
+        },
+        {
+          "system": "ICD-10",
+          "code": "R94.2",
+          "display": "Reduced ventilation - R94.2"
+        },
+        {
+          "system": "ICD-10",
+          "code": "J96",
+          "display": "Reduced ventilation - J96"
+        },
+        {
+          "system": "ICD-10",
+          "code": "R06.89",
+          "display": "Reduced ventilation - R06.89"
+        },
+        {
+          "system": "ICD-10",
+          "code": "J96.11",
+          "display": "Reduced ventilation - J96.11"
+        },
+        {
+          "system": "ICD-10",
+          "code": "Z99.1",
+          "display": "Reduced ventilation - Z99.1"
+        },
+        {
+          "system": "ICD-10",
+          "code": "Z99.11",
+          "display": "Reduced ventilation - Z99.11"
+        }
+      ],
+      "direct_transition": "Condition_Logic"
+    },
+    "Check_Osteoporosis": {
+      "type": "ConditionOnset",
+      "codes": [
+        {
+          "system": "ICD-10",
+          "code": "Z13.820",
+          "display": "Osteoporosis - Z13.820"
+        },
+        {
+          "system": "ICD-10",
+          "code": "Z87.310",
+          "display": "Osteoporosis - Z87.310"
+        },
+        {
+          "system": "ICD-10",
+          "code": "M81.8",
+          "display": "Osteoporosis - M81.8"
+        },
+        {
+          "system": "ICD-10",
+          "code": "M85.9",
+          "display": "Osteoporosis - M85.9"
+        },
+        {
+          "system": "ICD-10",
+          "code": "M85.80",
+          "display": "Osteoporosis - M85.80"
+        }
+      ],
+      "direct_transition": "Condition_Logic"
+    },
+    "Assign_Ungrouped_Conditions": {
+      "type": "DistributedTransition",
+      "distributdistributed_transitionions": [
+        {
+          "transition": "Muscular_Dystrophy",
+          "distribution": 0.03
+        },
+        {
+          "transition": "Muscle_Pain",
+          "distribution": 0.02
+        },
+        {
+          "transition": "Enlarged_Calves",
+          "distribution": 0.01
+        },
+        {
+          "transition": "Toe_Walking",
+          "distribution": 0.02
+        },
+        {
+          "transition": "Motor_Delay",
+          "distribution": 0.025
+        },
+        {
+          "transition": "Physical_Activity_Difficulty",
+          "distribution": 0.015
+        },
+        {
+          "transition": "Frequent_Falls",
+          "distribution": 0.025
+        },
+        {
+          "transition": "Elevated_CK",
+          "distribution": 0.01
+        },
+        {
+          "transition": "Elevated_Liver_Enzymes",
+          "distribution": 0.015
+        },
+        {
+          "transition": "Heart_Problems",
+          "distribution": 0.02
+        },
+        {
+          "transition": "Infant_Screen",
+          "distribution": 0.02
+        },
+        {
+          "transition": "Family_MD",
+          "distribution": 0.02
+        },
+        {
+          "transition": "Language_Delay",
+          "distribution": 0.02
+        }
+      ],
+      "default": "Done"
+    },
+    "Muscular_Dystrophy": {
+      "type": "Conditional",
+      "conditions": [
+        {
+          "condition": {
+            "type": "And",
+            "conditions": [
+              {
+                "condition_type": "Age",
+                "operator": ">=",
+                "value": 4
+              },
+              {
+                "condition_type": "Age",
+                "operator": "<=",
+                "value": 18
+              }
+            ]
+          },
+          "transition": "Onset_MD"
+        }
+      ],
+      "default": "DoEndne"
+    },
+    "Onset_MD": {
+      "type": "ConditionOnset",
       "codes": [
         {
           "system": "ICD-10",
@@ -207,407 +597,10 @@
           "display": "Muscular dystrophy"
         }
       ],
-      "direct_transition": "Condition_2"
+      "transition": "End"
     },
-    "Condition_2": {
+    "Muscle_Pain": {
       "type": "ConditionOnset",
-      "target_condition": "Muscular dystrophy unspecified",
-      "codes": [
-        {
-          "system": "ICD-10",
-          "code": "G71.00",
-          "display": "Muscular dystrophy unspecified"
-        }
-      ],
-      "direct_transition": "Condition_3"
-    },
-    "Condition_3": {
-      "type": "ConditionOnset",
-      "target_condition": "Duchenne or Becker",
-      "codes": [
-        {
-          "system": "ICD-10",
-          "code": "G71.01",
-          "display": "Duchenne or Becker"
-        }
-      ],
-      "direct_transition": "Condition_4"
-    },
-    "Condition_4": {
-      "type": "ConditionOnset",
-      "target_condition": "Motor delay",
-      "codes": [
-        {
-          "system": "ICD-10",
-          "code": "F82",
-          "display": "Motor delay"
-        }
-      ],
-      "direct_transition": "Condition_5"
-    },
-    "Condition_5": {
-      "type": "ConditionOnset",
-      "target_condition": "Other dz psychological development",
-      "codes": [
-        {
-          "system": "ICD-10",
-          "code": "F88",
-          "display": "Other dz psychological development"
-        }
-      ],
-      "direct_transition": "Condition_6"
-    },
-    "Condition_6": {
-      "type": "ConditionOnset",
-      "target_condition": "Speech delay",
-      "codes": [
-        {
-          "system": "ICD-10",
-          "code": "F80.9",
-          "display": "Speech delay"
-        }
-      ],
-      "direct_transition": "Condition_7"
-    },
-    "Condition_7": {
-      "type": "ConditionOnset",
-      "target_condition": "Other dev disorders of speech and language",
-      "codes": [
-        {
-          "system": "ICD-10",
-          "code": "F80.89",
-          "display": "Other dev disorders of speech and language"
-        }
-      ],
-      "direct_transition": "Condition_8"
-    },
-    "Condition_8": {
-      "type": "ConditionOnset",
-      "target_condition": "Expr language disorder",
-      "codes": [
-        {
-          "system": "ICD-10",
-          "code": "F80.1",
-          "display": "Expr language disorder"
-        }
-      ],
-      "direct_transition": "Condition_9"
-    },
-    "Condition_9": {
-      "type": "ConditionOnset",
-      "target_condition": "Mixed rec/expr language disorder",
-      "codes": [
-        {
-          "system": "ICD-10",
-          "code": "F80.2",
-          "display": "Mixed rec/expr language disorder"
-        }
-      ],
-      "direct_transition": "Condition_10"
-    },
-    "Condition_10": {
-      "type": "ConditionOnset",
-      "target_condition": "Other disorders of psychological development",
-      "codes": [
-        {
-          "system": "ICD-10",
-          "code": "F88",
-          "display": "Other disorders of psychological development"
-        }
-      ],
-      "direct_transition": "Condition_11"
-    },
-    "Condition_11": {
-      "type": "ConditionOnset",
-      "target_condition": "Unspecified disorder of psychological development",
-      "codes": [
-        {
-          "system": "ICD-10",
-          "code": "F89",
-          "display": "Unspecified disorder of psychological development"
-        }
-      ],
-      "direct_transition": "Condition_12"
-    },
-    "Condition_12": {
-      "type": "ConditionOnset",
-      "target_condition": "Lack of expected normal physiological development",
-      "codes": [
-        {
-          "system": "ICD-10",
-          "code": "R62.50",
-          "display": "Lack of expected normal physiological development"
-        }
-      ],
-      "direct_transition": "Condition_13"
-    },
-    "Condition_13": {
-      "type": "ConditionOnset",
-      "target_condition": "Encounter for screening for global developmental delay",
-      "codes": [
-        {
-          "system": "ICD-10",
-          "code": "Z13.42",
-          "display": "Encounter for screening for global developmental delay"
-        }
-      ],
-      "direct_transition": "Condition_14"
-    },
-    "Condition_14": {
-      "type": "ConditionOnset",
-      "target_condition": "Encounter for screening for dev delay",
-      "codes": [
-        {
-          "system": "ICD-10",
-          "code": "Z13.40",
-          "display": "Encounter for screening for dev delay"
-        }
-      ],
-      "direct_transition": "Condition_15"
-    },
-    "Condition_15": {
-      "type": "ConditionOnset",
-      "target_condition": "Encounter for screening for other dev delay",
-      "codes": [
-        {
-          "system": "ICD-10",
-          "code": "Z13.49",
-          "display": "Encounter for screening for other dev delay"
-        }
-      ],
-      "direct_transition": "Condition_16"
-    },
-    "Condition_16": {
-      "type": "ConditionOnset",
-      "target_condition": "Dilated cardiomyopathy",
-      "codes": [
-        {
-          "system": "ICD-10",
-          "code": "I42.0",
-          "display": "Dilated cardiomyopathy"
-        }
-      ],
-      "direct_transition": "Condition_17"
-    },
-    "Condition_17": {
-      "type": "ConditionOnset",
-      "target_condition": "Cardiomyopathy",
-      "codes": [
-        {
-          "system": "ICD-10",
-          "code": "I42.9",
-          "display": "Cardiomyopathy"
-        }
-      ],
-      "direct_transition": "Condition_18"
-    },
-    "Condition_18": {
-      "type": "ConditionOnset",
-      "target_condition": "Cardiomyopathy in diseases classified elsewhere",
-      "codes": [
-        {
-          "system": "ICD-10",
-          "code": "I43",
-          "display": "Cardiomyopathy in diseases classified elsewhere"
-        }
-      ],
-      "direct_transition": "Condition_19"
-    },
-    "Condition_19": {
-      "type": "ConditionOnset",
-      "target_condition": "Other disorders of lung",
-      "codes": [
-        {
-          "system": "ICD-10",
-          "code": "J98.4",
-          "display": "Other disorders of lung"
-        }
-      ],
-      "direct_transition": "Condition_20"
-    },
-    "Condition_20": {
-      "type": "ConditionOnset",
-      "target_condition": "Abnormal results of pulmonary function studies",
-      "codes": [
-        {
-          "system": "ICD-10",
-          "code": "R94.2",
-          "display": "Abnormal results of pulmonary function studies"
-        }
-      ],
-      "direct_transition": "Condition_21"
-    },
-    "Condition_21": {
-      "type": "ConditionOnset",
-      "target_condition": "Respiratory failure not elsewhere classified",
-      "codes": [
-        {
-          "system": "ICD-10",
-          "code": "J96",
-          "display": "Respiratory failure not elsewhere classified"
-        }
-      ],
-      "direct_transition": "Condition_22"
-    },
-    "Condition_22": {
-      "type": "ConditionOnset",
-      "target_condition": "Abnormalities of breathing",
-      "codes": [
-        {
-          "system": "ICD-10",
-          "code": "R06.89",
-          "display": "Abnormalities of breathing"
-        }
-      ],
-      "direct_transition": "Condition_23"
-    },
-    "Condition_23": {
-      "type": "ConditionOnset",
-      "target_condition": "Chronic respiratory failure with hypoxia",
-      "codes": [
-        {
-          "system": "ICD-10",
-          "code": "J96.11",
-          "display": "Chronic respiratory failure with hypoxia"
-        }
-      ],
-      "direct_transition": "Condition_24"
-    },
-    "Condition_24": {
-      "type": "ConditionOnset",
-      "target_condition": "Depdendence on respirator",
-      "codes": [
-        {
-          "system": "ICD-10",
-          "code": "Z99.1",
-          "display": "Depdendence on respirator"
-        }
-      ],
-      "direct_transition": "Condition_25"
-    },
-    "Condition_25": {
-      "type": "ConditionOnset",
-      "target_condition": "Depdence on ventilator/respirator status",
-      "codes": [
-        {
-          "system": "ICD-10",
-          "code": "Z99.11",
-          "display": "Depdence on ventilator/respirator status"
-        }
-      ],
-      "direct_transition": "Condition_26"
-    },
-    "Condition_26": {
-      "type": "ConditionOnset",
-      "target_condition": "Encounter for screening for osteoporosis",
-      "codes": [
-        {
-          "system": "ICD-10",
-          "code": "Z13.820",
-          "display": "Encounter for screening for osteoporosis"
-        }
-      ],
-      "direct_transition": "Condition_27"
-    },
-    "Condition_27": {
-      "type": "ConditionOnset",
-      "target_condition": "Personal hx healed osteoporosis fracture",
-      "codes": [
-        {
-          "system": "ICD-10",
-          "code": "Z87.310",
-          "display": "Personal hx healed osteoporosis fracture"
-        }
-      ],
-      "direct_transition": "Condition_28"
-    },
-    "Condition_28": {
-      "type": "ConditionOnset",
-      "target_condition": "Other osteoporosis without current pathological fracture",
-      "codes": [
-        {
-          "system": "ICD-10",
-          "code": "M81.8",
-          "display": "Other osteoporosis without current pathological fracture"
-        }
-      ],
-      "direct_transition": "Condition_29"
-    },
-    "Condition_29": {
-      "type": "ConditionOnset",
-      "target_condition": "Disorder of bone density and structure",
-      "codes": [
-        {
-          "system": "ICD-10",
-          "code": "M85.9",
-          "display": "Disorder of bone density and structure"
-        }
-      ],
-      "direct_transition": "Condition_30"
-    },
-    "Condition_30": {
-      "type": "ConditionOnset",
-      "target_condition": "Other specified disorders disorders of bone density and structure",
-      "codes": [
-        {
-          "system": "ICD-10",
-          "code": "M85.80",
-          "display": "Other specified disorders disorders of bone density and structure"
-        }
-      ],
-      "direct_transition": "Condition_31"
-    },
-    "Condition_31": {
-      "type": "ConditionOnset",
-      "target_condition": "Contractures",
-      "codes": [
-        {
-          "system": "ICD-10",
-          "code": "M62.40",
-          "display": "Contractures"
-        }
-      ],
-      "direct_transition": "Condition_32"
-    },
-    "Condition_32": {
-      "type": "ConditionOnset",
-      "target_condition": "Contractures",
-      "codes": [
-        {
-          "system": "ICD-10",
-          "code": "M62.41",
-          "display": "Contractures"
-        }
-      ],
-      "direct_transition": "Condition_33"
-    },
-    "Condition_33": {
-      "type": "ConditionOnset",
-      "target_condition": "Contractures",
-      "codes": [
-        {
-          "system": "ICD-10",
-          "code": "M62.47",
-          "display": "Contractures"
-        }
-      ],
-      "direct_transition": "Condition_34"
-    },
-    "Condition_34": {
-      "type": "ConditionOnset",
-      "target_condition": "Contractures",
-      "codes": [
-        {
-          "system": "ICD-10",
-          "code": "M62.49",
-          "display": "Contractures"
-        }
-      ],
-      "direct_transition": "Condition_35"
-    },
-    "Condition_35": {
-      "type": "ConditionOnset",
-      "target_condition": "Muscle pain/cramps",
       "codes": [
         {
           "system": "ICD-10",
@@ -615,11 +608,10 @@
           "display": "Muscle pain/cramps"
         }
       ],
-      "direct_transition": "Condition_36"
+      "transition": "End"
     },
-    "Condition_36": {
+    "Enlarged_Calves": {
       "type": "ConditionOnset",
-      "target_condition": "Enlarged calves",
       "codes": [
         {
           "system": "ICD-10",
@@ -627,11 +619,10 @@
           "display": "Enlarged calves"
         }
       ],
-      "direct_transition": "Condition_37"
+      "transition": "End"
     },
-    "Condition_37": {
+    "Toe_Walking": {
       "type": "ConditionOnset",
-      "target_condition": "Toe walking",
       "codes": [
         {
           "system": "ICD-10",
@@ -639,23 +630,21 @@
           "display": "Toe walking"
         }
       ],
-      "direct_transition": "Condition_38"
+      "transition": "End"
     },
-    "Condition_38": {
+    "Motor_Delay": {
       "type": "ConditionOnset",
-      "target_condition": "Delays in motor development",
       "codes": [
         {
           "system": "ICD-10",
           "code": "P57.2",
-          "display": "Delays in motor development"
+          "display": "Delayed motor development"
         }
       ],
-      "direct_transition": "Condition_39"
+      "transition": "End"
     },
-    "Condition_39": {
+    "Physical_Activity_Difficulty": {
       "type": "ConditionOnset",
-      "target_condition": "Difficulty with physical activities",
       "codes": [
         {
           "system": "ICD-10",
@@ -663,11 +652,10 @@
           "display": "Difficulty with physical activities"
         }
       ],
-      "direct_transition": "Condition_40"
+      "transition": "End"
     },
-    "Condition_40": {
+    "Frequent_Falls": {
       "type": "ConditionOnset",
-      "target_condition": "Frequent falls",
       "codes": [
         {
           "system": "ICD-10",
@@ -675,23 +663,21 @@
           "display": "Frequent falls"
         }
       ],
-      "direct_transition": "Condition_41"
+      "transition": "End"
     },
-    "Condition_41": {
+    "Elevated_CK": {
       "type": "ConditionOnset",
-      "target_condition": "Elevated ck levels",
       "codes": [
         {
           "system": "ICD-10",
           "code": "F42.9",
-          "display": "Elevated ck levels"
+          "display": "Elevated CK levels"
         }
       ],
-      "direct_transition": "Condition_42"
+      "transition": "End"
     },
-    "Condition_42": {
+    "Elevated_Liver_Enzymes": {
       "type": "ConditionOnset",
-      "target_condition": "Elevated liver enzymes",
       "codes": [
         {
           "system": "ICD-10",
@@ -699,11 +685,10 @@
           "display": "Elevated liver enzymes"
         }
       ],
-      "direct_transition": "Condition_43"
+      "transition": "End"
     },
-    "Condition_43": {
+    "Heart_Problems": {
       "type": "ConditionOnset",
-      "target_condition": "Heart problems",
       "codes": [
         {
           "system": "ICD-10",
@@ -711,11 +696,10 @@
           "display": "Heart problems"
         }
       ],
-      "direct_transition": "Condition_44"
+      "transition": "End"
     },
-    "Condition_44": {
+    "Infant_Screen": {
       "type": "ConditionOnset",
-      "target_condition": "Infant screen",
       "codes": [
         {
           "system": "ICD-10",
@@ -723,11 +707,10 @@
           "display": "Infant screen"
         }
       ],
-      "direct_transition": "Condition_45"
+      "transition": "End"
     },
-    "Condition_45": {
+    "Family_MD": {
       "type": "ConditionOnset",
-      "target_condition": "Family member with muscular dystrophy",
       "codes": [
         {
           "system": "ICD-10",
@@ -735,19 +718,18 @@
           "display": "Family member with muscular dystrophy"
         }
       ],
-      "direct_transition": "Condition_46"
+      "transition": "End"
     },
-    "Condition_46": {
+    "Language_Delay": {
       "type": "ConditionOnset",
-      "target_condition": "Delays in developing language",
       "codes": [
         {
           "system": "ICD-10",
           "code": "M37.0",
-          "display": "Delays in developing language"
+          "display": "Language development delay"
         }
       ],
-      "direct_transition": "End"
+      "transition": "End"
     },
     "End": {
       "type": "Terminal"
