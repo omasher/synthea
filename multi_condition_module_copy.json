@@ -1,9 +1,200 @@
 {
-  "name": "GroupedConditionsModule",
-  "remarks": "Assigns grouped conditions with random probabilities.",
+  "name": "multi_condition_module",
+  "remarks": [
+    "Simulates multiple problem types"
+  ],
   "states": {
     "Initial": {
       "type": "Initial",
+      "direct_transition": "Gender_Assignment"
+    },
+    "Gender_Assignment": {
+      "type": "Simple",
+      "distributed_transition": [
+        {
+          "distribution": 0.7,
+          "transition": "Assign_Region",
+          "set_gender": "M"
+        },
+        {
+          "distribution": 0.3,
+          "transition": "Assign_Region",
+          "set_gender": "F"
+        }
+      ]
+    },
+    "Assign_Region": {
+      "type": "Site",
+      "remarks": [
+        "Randomly assign patient to one of 5 states"
+      ],
+      "distributed_transition": [
+        {
+          "distribution": 0.2,
+          "transition": "Pennsylvania"
+        },
+        {
+          "distribution": 0.2,
+          "transition": "Washington"
+        },
+        {
+          "distribution": 0.2,
+          "transition": "California"
+        },
+        {
+          "distribution": 0.2,
+          "transition": "Massachusetts"
+        },
+        {
+          "distribution": 0.2,
+          "transition": "Texas"
+        }
+      ]
+    },
+    "Pennsylvania": {
+      "type": "Site",
+      "direct_transition": "Age_Branching",
+      "remarks": [
+        "Entry point for patients in Pennsylvania"
+      ]
+    },
+    "Washington": {
+      "type": "Site",
+      "direct_transition": "Age_Branching",
+      "remarks": [
+        "Entry point for patients in Washington"
+      ]
+    },
+    "California": {
+      "type": "Site",
+      "direct_transition": "Age_Branching",
+      "remarks": [
+        "Entry point for patients in California"
+      ]
+    },
+    "Massachusetts": {
+      "type": "Site",
+      "direct_transition": "Age_Branching",
+      "remarks": [
+        "Entry point for patients in Massachusetts"
+      ]
+    },
+    "Texas": {
+      "type": "Site",
+      "direct_transition": "Age_Branching",
+      "remarks": [
+        "Entry point for patients in Texas"
+      ]
+    },
+    "Age_Branching": {
+      "type": "DistributedTransition",
+      "distributed_transition": [
+        {
+          "condition": {
+            "type": "Age",
+            "operator": "<=",
+            "value": 10,
+            "unit": "years"
+          },
+          "transition": "Age_0_10",
+          "distribution": 0.35
+        },
+        {
+          "condition": {
+            "type": "And",
+            "conditions": [
+              {
+                "type": "Age",
+                "operator": ">",
+                "value": 10
+              },
+              {
+                "type": "Age",
+                "operator": "<=",
+                "value": 20
+              }
+            ]
+          },
+          "transition": "Age_11_20",
+          "distribution": 0.3
+        },
+        {
+          "condition": {
+            "type": "And",
+            "conditions": [
+              {
+                "type": "Age",
+                "operator": ">",
+                "value": 20
+              },
+              {
+                "type": "Age",
+                "operator": "<=",
+                "value": 40
+              }
+            ]
+          },
+          "transition": "Age_21_40",
+          "distribution": 0.15
+        },
+        {
+          "condition": {
+            "type": "And",
+            "conditions": [
+              {
+                "type": "Age",
+                "operator": ">",
+                "value": 40
+              },
+              {
+                "type": "Age",
+                "operator": "<=",
+                "value": 65
+              }
+            ]
+          },
+          "transition": "Age_41_66",
+          "distribution": 0.17
+        },
+        {
+          "condition": {
+            "type": "Age",
+            "operator": ">",
+            "value": 65
+          },
+          "transition": "Age_66_plus",
+          "distribution": 0.03
+        }
+      ]
+    },
+    "Age_0_10": {
+      "type": "SetAttribute",
+      "attribute": "age_group",
+      "value": "child",
+      "direct_transition": "Assign_Grouped_Conditions"
+    },
+    "Age_11_20": {
+      "type": "SetAttribute",
+      "attribute": "age_group",
+      "value": "adolescent",
+      "direct_transition": "Assign_Grouped_Conditions"
+    },
+    "Age_21_40": {
+      "type": "SetAttribute",
+      "attribute": "age_group",
+      "value": "young_adult",
+      "direct_transition": "Assign_Grouped_Conditions"
+    },
+    "Age_41_66": {
+      "type": "SetAttribute",
+      "attribute": "age_group",
+      "value": "middle_aged",
+      "direct_transition": "Assign_Grouped_Conditions"
+    },
+    "Age_66_plus": {
+      "type": "SetAttribute",
+      "attribute": "age_group",
+      "value": "senior",
       "direct_transition": "Assign_Grouped_Conditions"
     },
     "Assign_Grouped_Conditions": {
@@ -103,7 +294,7 @@
         "Check_Reduced_ventilation",
         "Check_Osteoporosis"
       ],
-      "default_transition": "Terminal"
+      "default_transition": "End"
     },
     "Check_Contractures_tendon": {
       "type": "ConditionOnset",
@@ -314,6 +505,9 @@
         }
       ],
       "direct_transition": "Condition_Logic"
+    },
+    "End": {
+      "type": "Terminal"
     }
   }
 }
