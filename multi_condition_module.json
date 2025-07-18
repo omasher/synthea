@@ -564,7 +564,7 @@
       ]
     },
     "Muscular_Dystrophy": {
-      "type": "Conditional",
+      "type": "conditional_transition",
       "conditions": [
         {
           "condition": {
