@@ -1,0 +1,230 @@
+{
+  "name": "Ungrouped Conditions Assignment",
+  "states": {
+    "Assign_Ungrouped_Conditions": {
+      "type": "DistributedTransition",
+      "distributions": [
+        {
+          "transition": "Muscular_Dystrophy",
+          "distribution": 0.03
+        },
+        {
+          "transition": "Muscle_Pain",
+          "distribution": 0.02
+        },
+        {
+          "transition": "Enlarged_Calves",
+          "distribution": 0.01
+        },
+        {
+          "transition": "Toe_Walking",
+          "distribution": 0.02
+        },
+        {
+          "transition": "Motor_Delay",
+          "distribution": 0.025
+        },
+        {
+          "transition": "Physical_Activity_Difficulty",
+          "distribution": 0.015
+        },
+        {
+          "transition": "Frequent_Falls",
+          "distribution": 0.025
+        },
+        {
+          "transition": "Elevated_CK",
+          "distribution": 0.01
+        },
+        {
+          "transition": "Elevated_Liver_Enzymes",
+          "distribution": 0.015
+        },
+        {
+          "transition": "Heart_Problems",
+          "distribution": 0.02
+        },
+        {
+          "transition": "Infant_Screen",
+          "distribution": 0.02
+        },
+        {
+          "transition": "Family_MD",
+          "distribution": 0.02
+        },
+        {
+          "transition": "Language_Delay",
+          "distribution": 0.02
+        }
+      ],
+      "default": "Done"
+    },
+    "Muscular_Dystrophy": {
+      "type": "Conditional",
+      "conditions": [
+        {
+          "condition": {
+            "type": "And",
+            "conditions": [
+              {
+                "condition_type": "Age",
+                "operator": ">=",
+                "value": 4
+              },
+              {
+                "condition_type": "Age",
+                "operator": "<=",
+                "value": 18
+              }
+            ]
+          },
+          "transition": "Onset_MD"
+        }
+      ],
+      "default": "Done"
+    },
+    "Onset_MD": {
+      "type": "ConditionOnset",
+      "codes": [
+        {
+          "system": "ICD-10",
+          "code": "G71.0",
+          "display": "Muscular dystrophy"
+        }
+      ],
+      "transition": "Done"
+    },
+    "Muscle_Pain": {
+      "type": "ConditionOnset",
+      "codes": [
+        {
+          "system": "ICD-10",
+          "code": "A67.2",
+          "display": "Muscle pain/cramps"
+        }
+      ],
+      "transition": "Done"
+    },
+    "Enlarged_Calves": {
+      "type": "ConditionOnset",
+      "codes": [
+        {
+          "system": "ICD-10",
+          "code": "H234.5",
+          "display": "Enlarged calves"
+        }
+      ],
+      "transition": "Done"
+    },
+    "Toe_Walking": {
+      "type": "ConditionOnset",
+      "codes": [
+        {
+          "system": "ICD-10",
+          "code": "K23.5",
+          "display": "Toe walking"
+        }
+      ],
+      "transition": "Done"
+    },
+    "Motor_Delay": {
+      "type": "ConditionOnset",
+      "codes": [
+        {
+          "system": "ICD-10",
+          "code": "P57.2",
+          "display": "Delayed motor development"
+        }
+      ],
+      "transition": "Done"
+    },
+    "Physical_Activity_Difficulty": {
+      "type": "ConditionOnset",
+      "codes": [
+        {
+          "system": "ICD-10",
+          "code": "Z88.321",
+          "display": "Difficulty with physical activities"
+        }
+      ],
+      "transition": "Done"
+    },
+    "Frequent_Falls": {
+      "type": "ConditionOnset",
+      "codes": [
+        {
+          "system": "ICD-10",
+          "code": "U22.2",
+          "display": "Frequent falls"
+        }
+      ],
+      "transition": "Done"
+    },
+    "Elevated_CK": {
+      "type": "ConditionOnset",
+      "codes": [
+        {
+          "system": "ICD-10",
+          "code": "F42.9",
+          "display": "Elevated CK levels"
+        }
+      ],
+      "transition": "Done"
+    },
+    "Elevated_Liver_Enzymes": {
+      "type": "ConditionOnset",
+      "codes": [
+        {
+          "system": "ICD-10",
+          "code": "J87.3",
+          "display": "Elevated liver enzymes"
+        }
+      ],
+      "transition": "Done"
+    },
+    "Heart_Problems": {
+      "type": "ConditionOnset",
+      "codes": [
+        {
+          "system": "ICD-10",
+          "code": "B72.9",
+          "display": "Heart problems"
+        }
+      ],
+      "transition": "Done"
+    },
+    "Infant_Screen": {
+      "type": "ConditionOnset",
+      "codes": [
+        {
+          "system": "ICD-10",
+          "code": "W27.3",
+          "display": "Infant screen"
+        }
+      ],
+      "transition": "Done"
+    },
+    "Family_MD": {
+      "type": "ConditionOnset",
+      "codes": [
+        {
+          "system": "ICD-10",
+          "code": "D66.8",
+          "display": "Family member with muscular dystrophy"
+        }
+      ],
+      "transition": "Done"
+    },
+    "Language_Delay": {
+      "type": "ConditionOnset",
+      "codes": [
+        {
+          "system": "ICD-10",
+          "code": "M37.0",
+          "display": "Language development delay"
+        }
+      ],
+      "transition": "Done"
+    }
+  }
+}
