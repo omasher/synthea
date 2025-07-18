@@ -294,7 +294,7 @@
         "Check_Reduced_ventilation",
         "Check_Osteoporosis"
       ],
-      "default_transition": "EnAssign_Ungrouped_Conditionsd"
+      "direct_transition": "Assign_Ungrouped_Conditions"
     },
     "Check_Contractures_tendon": {
       "type": "ConditionOnset",
@@ -508,7 +508,7 @@
     },
     "Assign_Ungrouped_Conditions": {
       "type": "DistributedTransition",
-      "distributdistributed_transitionions": [
+      "distributed_transition": [
         {
           "transition": "Muscular_Dystrophy",
           "distribution": 0.03
@@ -561,8 +561,7 @@
           "transition": "Language_Delay",
           "distribution": 0.02
         }
-      ],
-      "default": "Done"
+      ]
     },
     "Muscular_Dystrophy": {
       "type": "Conditional",
@@ -583,10 +582,9 @@
               }
             ]
           },
-          "transition": "Onset_MD"
+          "direct_transition": "Onset_MD"
         }
-      ],
-      "default": "DoEndne"
+      ]
     },
     "Onset_MD": {
       "type": "ConditionOnset",
@@ -597,7 +595,7 @@
           "display": "Muscular dystrophy"
         }
       ],
-      "transition": "End"
+      "direct_transition": "End"
     },
     "Muscle_Pain": {
       "type": "ConditionOnset",
@@ -608,7 +606,7 @@
           "display": "Muscle pain/cramps"
         }
       ],
-      "transition": "End"
+      "direct_transition": "End"
     },
     "Enlarged_Calves": {
       "type": "ConditionOnset",
@@ -619,7 +617,7 @@
           "display": "Enlarged calves"
         }
       ],
-      "transition": "End"
+      "direct_transition": "End"
     },
     "Toe_Walking": {
       "type": "ConditionOnset",
@@ -630,7 +628,7 @@
           "display": "Toe walking"
         }
       ],
-      "transition": "End"
+      "direct_transition": "End"
     },
     "Motor_Delay": {
       "type": "ConditionOnset",
@@ -641,7 +639,7 @@
           "display": "Delayed motor development"
         }
       ],
-      "transition": "End"
+      "direct_transition": "End"
     },
     "Physical_Activity_Difficulty": {
       "type": "ConditionOnset",
@@ -652,7 +650,7 @@
           "display": "Difficulty with physical activities"
         }
       ],
-      "transition": "End"
+      "direct_transition": "End"
     },
     "Frequent_Falls": {
       "type": "ConditionOnset",
@@ -663,7 +661,7 @@
           "display": "Frequent falls"
         }
       ],
-      "transition": "End"
+      "direct_transition": "End"
     },
     "Elevated_CK": {
       "type": "ConditionOnset",
@@ -674,7 +672,7 @@
           "display": "Elevated CK levels"
         }
       ],
-      "transition": "End"
+      "direct_transition": "End"
     },
     "Elevated_Liver_Enzymes": {
       "type": "ConditionOnset",
@@ -685,7 +683,7 @@
           "display": "Elevated liver enzymes"
         }
       ],
-      "transition": "End"
+      "direct_transition": "End"
     },
     "Heart_Problems": {
       "type": "ConditionOnset",
@@ -696,7 +694,7 @@
           "display": "Heart problems"
         }
       ],
-      "transition": "End"
+      "direct_transition": "End"
     },
     "Infant_Screen": {
       "type": "ConditionOnset",
@@ -707,7 +705,7 @@
           "display": "Infant screen"
         }
       ],
-      "transition": "End"
+      "direct_transition": "End"
     },
     "Family_MD": {
       "type": "ConditionOnset",
@@ -718,7 +716,7 @@
           "display": "Family member with muscular dystrophy"
         }
       ],
-      "transition": "End"
+      "direct_transition": "End"
     },
     "Language_Delay": {
       "type": "ConditionOnset",
@@ -729,7 +727,7 @@
           "display": "Language development delay"
         }
       ],
-      "transition": "End"
+      "direct_transition": "End"
     },
     "End": {
       "type": "Terminal"
