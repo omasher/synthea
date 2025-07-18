@@ -12,19 +12,29 @@
       "type": "Simple",
       "distributed_transition": [
         {
-          "distribution": 0.7,
-          "transition": "Assign_Region",
-          "set_gender": "M"
+          "transition": "Set_Gender_M",
+          "distribution": 0.7
         },
         {
-          "distribution": 0.3,
-          "transition": "Assign_Region",
-          "set_gender": "F"
+          "transition": "Set_Gender_F",
+          "distribution": 0.3
         }
       ]
     },
+    "Set_Gender_M": {
+      "type": "SetAttribute",
+      "attribute": "gender",
+      "value": "M",
+      "direct_transition": "Assign_Region"
+    },
+    "Set_Gender_F": {
+      "type": "SetAttribute",
+      "attribute": "gender",
+      "value": "F",
+      "direct_transition": "Assign_Region"
+    },
     "Assign_Region": {
-      "type": "Site",
+      "type": "Simple",
       "remarks": [
         "Randomly assign patient to one of 5 states"
       ],
@@ -52,42 +62,52 @@
       ]
     },
     "Pennsylvania": {
-      "type": "Site",
+      "type": "SetAttribute",
+      "value": "Pennsylvania",
+      "attribute": "region",
       "direct_transition": "Age_Branching",
       "remarks": [
         "Entry point for patients in Pennsylvania"
       ]
     },
     "Washington": {
-      "type": "Site",
+      "type": "SetAttribute",
+      "value": "Washington",
+      "attribute": "region",
       "direct_transition": "Age_Branching",
       "remarks": [
         "Entry point for patients in Washington"
       ]
     },
     "California": {
-      "type": "Site",
+      "type": "SetAttribute",
+      "value": "California",
+      "attribute": "region",
       "direct_transition": "Age_Branching",
       "remarks": [
         "Entry point for patients in California"
       ]
     },
     "Massachusetts": {
-      "type": "Site",
+      "type": "SetAttribute",
+      "value": "Massachusetts",
+      "attribute": "region",
       "direct_transition": "Age_Branching",
       "remarks": [
         "Entry point for patients in Massachusetts"
       ]
     },
     "Texas": {
-      "type": "Site",
+      "type": "SetAttribute",
+      "attribute": "region",
+      "value": "Texas",
       "direct_transition": "Age_Branching",
       "remarks": [
         "Entry point for patients in Texas"
       ]
     },
     "Age_Branching": {
-      "type": "DistributedTransition",
+      "type": "Simple",
       "distributed_transition": [
         {
           "condition": {
@@ -507,7 +527,7 @@
       "direct_transition": "Condition_Logic"
     },
     "Assign_Ungrouped_Conditions": {
-      "type": "DistributedTransition",
+      "type": "Simple",
       "distributed_transition": [
         {
           "transition": "Muscular_Dystrophy",
